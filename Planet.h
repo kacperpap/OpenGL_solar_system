@@ -16,10 +16,14 @@ public:
     
 
     void Draw();
-    void ModelTranslate(glm::vec4 Color, glm::vec3 Position, glm::mat4 Model);
+    void ModelTranslate(glm::vec4 Color, glm::vec3 Position, glm::mat4 Model, GLfloat radius, GLfloat speed, GLfloat spinSpeed);
     void ShaderConfigure(Shader planetShader);
     void ShaderConfigureWithSunReflection(Shader planetShader, Planet sun);
     void Delete();
+    void movePlanet();
+    void Draw(Shader planetShader);
+    void move();
+   
 
     glm::vec4 planetColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	glm::vec3 planetPos = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -27,6 +31,9 @@ public:
 
     GLfloat* vertices;
     GLuint* indices;
+    GLfloat orbitRadius;
+    GLfloat orbitSpeed;
+    GLfloat rotationSpeed;
     unsigned int sizeofVertices;
     unsigned int sizeofIndices;
 

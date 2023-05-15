@@ -15,14 +15,14 @@ uniform vec3 camPos;
 
 void main()
 {
-	float ambient = 0.20f;
+	float ambient = 1.0f;
 
 	vec3 normal = normalize(Normal);
 	vec3 lightDirection = normalize(lightPos - crntPos);
 
 	float diffuse = max(dot(normal,lightDirection), 0.0f);
 
-	float specularLight = 0.50f;
+	float specularLight = 0.70f;
 
 	vec3 viewDirection = normalize(camPos - crntPos);
 	vec3 reflectionDirection = reflect(-lightDirection, normal);

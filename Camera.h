@@ -31,4 +31,4 @@ public:
 	void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform);
 	void Inputs(GLFWwindow* window);
 };
-#endif
+#endif

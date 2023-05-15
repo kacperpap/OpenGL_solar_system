@@ -78,8 +78,11 @@ void Planet::GenerateIndices()
 }
 
 
-void Planet::ModelTranslate(glm::vec4 Color, glm::vec3 Position, glm::mat4 Model)
+void Planet::ModelTranslate(glm::vec4 Color, glm::vec3 Position, glm::mat4 Model, GLfloat radius, GLfloat speed, GLfloat spinSpeed)
 {
+    this->orbitRadius = radius;
+    this->orbitSpeed = speed;
+    this->rotationSpeed = spinSpeed;
     this->planetColor = Color;
     this->planetPos = Position;
     this->planetModel = Model;
@@ -103,12 +106,62 @@ void Planet::ShaderConfigureWithSunReflection(Shader planetShader, Planet sun)
     glUniform4f(glGetUniformLocation(planetShader.ID, "lightColor"), sun.planetColor.x, sun.planetColor.y, sun.planetColor.z, sun.planetColor.w);
     glUniform3f(glGetUniformLocation(planetShader.ID, "lightPos"), sun.planetPos.x, sun.planetPos.y, sun.planetPos.z);
 }
-
-
-void Planet::Draw()
+GLfloat spin_angle = 0.0f;
+GLfloat rot_angle = 0.0f;;
+void Planet::move()
 {
+    //tutaj obracaja siê wokol siebie ale wszystkie tak samo idk czemu
+
+    rot_angle += glm::radians(this->orbitSpeed) / 200.0f;
+    spin_angle += glm::radians(this->rotationSpeed) / 100.0f;
+
+    glm::vec3 tvec = glm::vec3(this->orbitRadius, 0.0f, this->orbitSpeed);
+    glm::vec3 axis = glm::vec3(0.0f, 1.0f, 0.0f); //OY
+
+    glm::mat4 translate_ = glm::translate(glm::mat4(1.0f), -tvec);
+    glm::mat4 rotate_ = glm::rotate(glm::mat4(1.0f), rot_angle, axis);
+    glm::mat4 spin_ = glm::rotate(glm::mat4(1.0f), spin_angle, axis);
+    this->planetModel = rotate_ * translate_ * spin_;
+}
+
+void Planet:: movePlanet()
+{
+       /* glm::vec3 axis = glm::vec3(0.0f, 1.0f, 0.0f); //oœ obrotu wokó³ osi Y
+        GLfloat angle = glm::radians(orbitSpeed) * 0.01f; //obliczanie k¹ta obrotu
+        glm::vec3 position = glm::vec3(orbitRadius * glm::cos(angle), 0.0f, orbitRadius * glm::sin(angle)); //obliczanie pozycji na orbicie
+        this->planetModel = glm::translate(glm::mat4(1.0f), position); //przesuniêcie do pozycji na orbicie
+        this->planetModel = glm::rotate(this->planetModel, glm::radians(rotationSpeed) * 0.01f, axis); //obrót wokó³ osi obrotu
+        this->planetModel = glm::translate(this->planetModel , position * -1.0f); //przesuniêcie o promieñ orbity wzd³u¿ osi obrotu
+*/
+
+    glm::mat4 rotate(1.0f);
+    glm::mat4 spin(1.0f);
+    glm::vec3 tvec = glm::vec3(-orbitRadius, 0.0f, 0.0f);
+    glm::vec3 axis = glm::vec3(0.0f, 1.0f, 0.0f);
+    GLfloat rot_angle = glm::radians(orbitSpeed) / 100.0f;
+    GLfloat spin_angle = glm::radians(rotationSpeed) / 100.0f;
+
+    rotate = glm::translate(rotate, tvec);
+    rotate = glm::rotate(rotate, rot_angle, axis);
+    rotate = glm::translate(rotate, -tvec);
+
+    spin = glm::rotate(spin, spin_angle, axis);
+
+    this->planetModel = rotate * spin;
+
+    // tu sie obracalo dobrze, ale teraz nie dziala ktos mi powie czemu???
+    //this->planetModel = glm::translate(this->planetModel, glm::vec3( -this->orbitRadius  , 0.0f, 0.0f));
+    //this->planetModel = glm::rotate(this->planetModel, glm::radians(this->orbitSpeed) / 100.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //OY
+    //this->planetModel = glm::translate(this->planetModel,glm::vec3(this->orbitRadius, 0.0f, 0.0f));
+}
+
+
+void Planet::Draw(Shader planetShader)
+{
+    glUniformMatrix4fv(glGetUniformLocation(planetShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(this->planetModel));
     this->planetVAO.Bind();
     glDrawElements(GL_TRIANGLES, 6 * this->segments * this->segments, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 }
 
 void Planet::Delete()
