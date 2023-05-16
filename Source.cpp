@@ -22,7 +22,7 @@ const unsigned int height = 1000;
 void createPlanet(Shader plShader, Camera camera, Texture tex, Planet& planet) {
 	plShader.Activate();
 	planet.move();
-	//shader'y default obs≥uguja jednoczesnie kamere nwm czy mozna to rozdzielic na osobne shadery
+	//shader'y default obs≈Çuguja jednoczesnie kamere nwm czy mozna to rozdzielic na osobne shadery
 	glUniform3f(glGetUniformLocation(plShader.ID, "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
 	camera.Matrix(plShader, "camMatrix");
 	tex.Bind();
@@ -51,11 +51,11 @@ int main()
 
 	//SUN
 	Shader planetShader("planet.vert", "planet.frag");
-	Planet sun(13.9f, 32);
-
+	Planet sun(13.9f, 62);
 
 	Texture sunTexture("sun_2.jpg", GL_TEXTURE_2D, 2, GL_RGB, GL_UNSIGNED_BYTE);
 	sunTexture.texUnit(planetShader, "tex2", 2);
+
 	
 	//MERCURY
 	Shader mercuryShader("default.vert", "default.frag");
@@ -90,14 +90,14 @@ int main()
 
 	//JUPITER
 	Shader jupiterShader("default.vert", "default.frag");
-	Planet jupiter(1.43640f, 32);
+	Planet jupiter(1.43640f, 42);
 
 	Texture jupiterTex("jupiter.jpg", GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE);
 	jupiterTex.texUnit(jupiterShader, "tex0", 0);
 
 	//SATURN
 	Shader saturnShader("default.vert", "default.frag");
-	Planet saturn(1.20570f, 32);
+	Planet saturn(1.20570f, 42);
 
 	Texture saturnTex("saturn.jpg", GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE);
 	saturnTex.texUnit(saturnShader, "tex0", 0);
@@ -123,10 +123,10 @@ int main()
 
 	//Translate
 	glm::vec3 sunPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-	sun.ModelTranslate(glm::vec4(1.0f, 0.95f, 0.95f, 1.0f), sunPosition, glm::mat4(1.0f), 0.0f, 0.0f, 0.0f);
-
-	mercury.ModelTranslate(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec3(20.0f, 0.0f, 0.0f), glm::mat4(1.0f), 25.0f, 5.4f, 0.9f);
-	venus.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(30.0f, 0.0f, 0.0f), glm::mat4(1.0f), 35.0f, 4.6f, 0.2f);
+	sun.ModelTranslate(glm::vec4(1.0f, 0.95f, 0.95f, 1.0f), sunPosition, glm::mat4(1.0f), 0.0f, 0.0f, -0.3f);
+	
+	mercury.ModelTranslate(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec3(20.0f, 0.0f, 0.0f), glm::mat4(1.0f), 25.0f, 4.4f, 0.9f);
+	venus.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(30.0f, 0.0f, 0.0f), glm::mat4(1.0f), 35.0f, 4.0f, 0.2f);
 	earth.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(40.0f, 0.0f, 0.0f), glm::mat4(1.0f), 45.0f, 3.5f, 2.0f);
 	mars.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(55.0f, 0.0f, 0.0f), glm::mat4(1.0f), 55.0f, 3.4f, 2.1f);
 	jupiter.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(70.0f, 0.0f, 0.0f), glm::mat4(1.0f), 65.84f, 1.0f, 4.8f);
@@ -174,13 +174,6 @@ int main()
 
 		//VENUS
 		createPlanet(venusShader, camera, venusTex, venus);
-		//venusShader.Activate();
-		//venus.move2();
-		////shader'y default obs≥uguja jednoczesnie kamere nwm czy mozna to rozdzielic na osobne shadery
-		//glUniform3f(glGetUniformLocation(venusShader.ID, "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
-		//camera.Matrix(venusShader, "camMatrix");
-		//venusTex.Bind();
-		//venus.Draw(venusShader);
 
 		//EARTH
 		createPlanet(earthShader, camera, earthTex, earth);
@@ -202,6 +195,7 @@ int main()
 
 		//SUN
 		planetShader.Activate();
+		sun.move();
 		camera.Matrix(planetShader, "camMatrix");
 		sunTexture.Bind();
 		sun.Draw(planetShader);
