@@ -19,7 +19,7 @@ public:
 	bool firstClick = true;
 	int width;
 	int height;
-	float speed = 0.1f;
+	float speed = 5.9f;
 	float sensitivity = 100.0f;
 	// Konstruktor kamery
 	Camera(int width, int height, glm::vec3 position);

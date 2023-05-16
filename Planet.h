@@ -23,7 +23,6 @@ public:
     void movePlanet();
     void Draw(Shader planetShader);
     void move();
-   
 
     glm::vec4 planetColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	glm::vec3 planetPos = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -34,6 +33,8 @@ public:
     GLfloat orbitRadius;
     GLfloat orbitSpeed;
     GLfloat rotationSpeed;
+    GLfloat spin = 0.0f;
+    GLfloat speed=0.0f;
     unsigned int sizeofVertices;
     unsigned int sizeofIndices;
 
