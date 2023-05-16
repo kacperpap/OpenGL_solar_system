@@ -96,7 +96,6 @@ void Planet::ShaderConfigure(Shader planetShader)
     planetShader.Activate();
     glUniformMatrix4fv(glGetUniformLocation(planetShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(this->planetModel));
     //glUniform4f(glGetUniformLocation(planetShader.ID, "lightColor"), this->planetColor.x, this->planetColor.y, this->planetColor.z, this->planetColor.w);
-
 }
 
 void Planet::ShaderConfigureWithSunReflection(Shader planetShader, Planet sun)

@@ -59,30 +59,30 @@ int main()
 	
 	//MERCURY
 	Shader mercuryShader("default.vert", "default.frag");
-	Planet mercury(0.04878f, 32);
+	Planet mercury(0.4878f, 32);
 
 	Texture mercuryTex("merkury.jpg", GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE);
 	mercuryTex.texUnit(mercuryShader, "tex0", 0);
 
 	//VENUS
 	Shader venusShader("default.vert", "default.frag");
-	Planet venus(0.12104f, 32);
+	Planet venus(0.72104f, 32);
 
 	Texture venusTex("wenus.jpg", GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE);
 	venusTex.texUnit(venusShader, "tex0", 0);
 
 	//EARTH
 	Shader earthShader("default.vert", "default.frag");
-	Planet earth(0.12756f, 32);
+	Planet earth(0.92756f, 32);
 
 	Texture earthTex("earth.jpg", GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE);
 	earthTex.texUnit(earthShader, "tex0", 0);
-	Texture specularMap("earthOmap.jpg", GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE);
-	specularMap.texUnit(earthShader, "tex1", 1);
+	//Texture specularMap("earthOmap.jpg", GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE);
+	//specularMap.texUnit(earthShader, "tex1", 1);
 
 	//MARS
 	Shader marsShader("default.vert", "default.frag");
-	Planet mars(0.06860f, 32);
+	Planet mars(0.6860f, 32);
 
 	Texture marsTex("mars.jpg", GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE);
 	marsTex.texUnit(marsShader, "tex0", 0);
@@ -123,21 +123,21 @@ int main()
 
 	//Translate
 	glm::vec3 sunPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-	sun.ModelTranslate(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), sunPosition, glm::mat4(1.0f), 0.0f, 0.0f, 0.0f);
+	sun.ModelTranslate(glm::vec4(1.0f, 0.95f, 0.95f, 1.0f), sunPosition, glm::mat4(1.0f), 0.0f, 0.0f, 0.0f);
 
-	mercury.ModelTranslate(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec3(0.57740f, 0.0f, 1.0f), glm::mat4(1.0f), 20.0f, 14.4f, 0.9f);
-	venus.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(1.0141f, 0.0f, 1.0f), glm::mat4(1.0f), 30.0f, 12.6f, 0.2f);
-	earth.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(6.0f, 0.0f, 1.0f), glm::mat4(1.0f), 40.0f, 10.5f, 2.0f);
-	mars.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(8.0f, 0.0f, 1.0f), glm::mat4(1.0f), 55.0f, 10.4f, 2.1f);
-	jupiter.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(10.0f, 0.0f, 1.0f), glm::mat4(1.0f), 70.84f, 4.8f, 4.8f);
-	saturn.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(13.0f, 0.0f, 1.0f), glm::mat4(1.0f), 80.0f, 2.4f, 4.5f);
-	uran.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(16.0f, 0.0f, 1.0f), glm::mat4(1.0f), 90.0f, 0.8f, 4.5f);
-	neptun.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(18.0f, 0.0f, 1.0f), glm::mat4(1.0f), 100.0f, 0.4f, 3.7f);
+	mercury.ModelTranslate(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec3(20.0f, 0.0f, 0.0f), glm::mat4(1.0f), 25.0f, 5.4f, 0.9f);
+	venus.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(30.0f, 0.0f, 0.0f), glm::mat4(1.0f), 35.0f, 4.6f, 0.2f);
+	earth.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(40.0f, 0.0f, 0.0f), glm::mat4(1.0f), 45.0f, 3.5f, 2.0f);
+	mars.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(55.0f, 0.0f, 0.0f), glm::mat4(1.0f), 55.0f, 3.4f, 2.1f);
+	jupiter.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(70.0f, 0.0f, 0.0f), glm::mat4(1.0f), 65.84f, 1.0f, 4.8f);
+	saturn.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(80.0f, 0.0f, 0.0f), glm::mat4(1.0f), 75.0f, 0.7f, 4.5f);
+	uran.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(90.0f, 0.0f, 0.0f), glm::mat4(1.0f), 85.0f, 0.5f, 4.5f);
+	neptun.ModelTranslate(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec3(100.0f, 0.0f, 0.0f), glm::mat4(1.0f), 95.0f, 0.3f, 3.7f);
 
 
 	//conf
 	sun.ShaderConfigure(planetShader);
-	//glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	//glm::vec4 lightColor = glm::vec4(1.0f, 0.9f, 0.9f, 1.0f);
 	//glUniform4f(glGetUniformLocation(planetShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 
 	mercury.ShaderConfigureWithSunReflection(mercuryShader, sun);
@@ -222,7 +222,7 @@ int main()
 	uranTex.Delete();
 	sunTexture.Delete();
 
-	specularMap.Delete();
+	//specularMap.Delete();
 	mercuryShader.Delete();
 	venusShader.Delete();
 	earthShader.Delete();
