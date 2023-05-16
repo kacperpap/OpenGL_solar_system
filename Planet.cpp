@@ -13,13 +13,13 @@ Planet::Planet(float radius, int segments) :
 
     this->planetVAO.Bind();
 
-    // uwaga: nie przypisuj sizeof(this->vertices), bo wartoœæ do bêdzie tylko wielkoœæ wskaŸnika -> trzeba obliczyæ recznie
+    // uwaga: nie przypisuj sizeof(this->vertices), bo wartoÅ“Ã¦ do bÃªdzie tylko wielkoÅ“Ã¦ wskaÅ¸nika -> trzeba obliczyÃ¦ recznie
     this->planetVBO = new VBO(this->vertices, this->sizeofVertices * sizeof(GLfloat)); 
     this->planetEBO = new EBO(this->indices, this->sizeofIndices * sizeof(GLuint));
 
-    this->planetVAO.LinkAttrib(*this->planetVBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
+    this->planetVAO.LinkAttrib(*this->planetVBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0); ////position id = 0
     this->planetVAO.LinkAttrib(*this->planetVBO, 1, 2, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float))); //id of texCoor = 1
-    this->planetVAO.LinkAttrib(*this->planetVBO, 2, 3, GL_FLOAT, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+    this->planetVAO.LinkAttrib(*this->planetVBO, 2, 3, GL_FLOAT, 8 * sizeof(float), (void*)(5 * sizeof(float))); //normal id = 2
 
     this->planetVAO.Unbind();
     (*this->planetVBO).Unbind();
@@ -90,7 +90,7 @@ void Planet::ModelTranslate(glm::vec4 Color, glm::vec3 Position, glm::mat4 Model
 }
 
 
-//Wywo³anie musi byæ po ModelTranslate, tak aby przypisaæ dobre wartosci pol
+//WywoÂ³anie musi byÃ¦ po ModelTranslate, tak aby przypisaÃ¦ dobre wartosci pol
 void Planet::ShaderConfigure(Shader planetShader) 
 {
     planetShader.Activate();
@@ -109,7 +109,7 @@ void Planet::ShaderConfigureWithSunReflection(Shader planetShader, Planet sun)
 
 void Planet::move()
 {
-    //tutaj obracaja siê wokol siebie ale wszystkie tak samo idk czemu
+    //tutaj obracaja siÃª wokol siebie ale wszystkie tak samo idk czemu
     //static GLfloat spin_angle = 0.0f;
     //static GLfloat rot_angle = 0.0f;;
     //rot_angle += glm::radians(this->orbitSpeed) / 200.0f;
