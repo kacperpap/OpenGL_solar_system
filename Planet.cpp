@@ -17,9 +17,9 @@ Planet::Planet(float radius, int segments) :
     this->planetVBO = new VBO(this->vertices, this->sizeofVertices * sizeof(GLfloat)); 
     this->planetEBO = new EBO(this->indices, this->sizeofIndices * sizeof(GLuint));
 
-    this->planetVAO.LinkAttrib(*this->planetVBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
+    this->planetVAO.LinkAttrib(*this->planetVBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0); //position id = 0
     this->planetVAO.LinkAttrib(*this->planetVBO, 1, 2, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float))); //id of texCoor = 1
-    this->planetVAO.LinkAttrib(*this->planetVBO, 2, 3, GL_FLOAT, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+    this->planetVAO.LinkAttrib(*this->planetVBO, 2, 3, GL_FLOAT, 8 * sizeof(float), (void*)(5 * sizeof(float))); //normal id = 2
 
     this->planetVAO.Unbind();
     (*this->planetVBO).Unbind();
