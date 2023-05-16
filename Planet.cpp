@@ -13,11 +13,11 @@ Planet::Planet(float radius, int segments) :
 
     this->planetVAO.Bind();
 
-    // uwaga: nie przypisuj sizeof(this->vertices), bo wartoœæ do bêdzie tylko wielkoœæ wskaŸnika -> trzeba obliczyæ recznie
+    // uwaga: nie przypisuj sizeof(this->vertices), bo wartoÅ“Ã¦ do bÃªdzie tylko wielkoÅ“Ã¦ wskaÅ¸nika -> trzeba obliczyÃ¦ recznie
     this->planetVBO = new VBO(this->vertices, this->sizeofVertices * sizeof(GLfloat)); 
     this->planetEBO = new EBO(this->indices, this->sizeofIndices * sizeof(GLuint));
 
-    this->planetVAO.LinkAttrib(*this->planetVBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0); //position id = 0
+    this->planetVAO.LinkAttrib(*this->planetVBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0); ////position id = 0
     this->planetVAO.LinkAttrib(*this->planetVBO, 1, 2, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float))); //id of texCoor = 1
     this->planetVAO.LinkAttrib(*this->planetVBO, 2, 3, GL_FLOAT, 8 * sizeof(float), (void*)(5 * sizeof(float))); //normal id = 2
 
@@ -78,8 +78,11 @@ void Planet::GenerateIndices()
 }
 
 
-void Planet::ModelTranslate(glm::vec4 Color, glm::vec3 Position, glm::mat4 Model)
+void Planet::ModelTranslate(glm::vec4 Color, glm::vec3 Position, glm::mat4 Model, GLfloat radius, GLfloat speed, GLfloat spinSpeed)
 {
+    this->orbitRadius = radius;
+    this->orbitSpeed = speed;
+    this->rotationSpeed = spinSpeed;
     this->planetColor = Color;
     this->planetPos = Position;
     this->planetModel = Model;
@@ -87,13 +90,12 @@ void Planet::ModelTranslate(glm::vec4 Color, glm::vec3 Position, glm::mat4 Model
 }
 
 
-//Wywo³anie musi byæ po ModelTranslate, tak aby przypisaæ dobre wartosci pol
+//WywoÂ³anie musi byÃ¦ po ModelTranslate, tak aby przypisaÃ¦ dobre wartosci pol
 void Planet::ShaderConfigure(Shader planetShader) 
 {
     planetShader.Activate();
     glUniformMatrix4fv(glGetUniformLocation(planetShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(this->planetModel));
     //glUniform4f(glGetUniformLocation(planetShader.ID, "lightColor"), this->planetColor.x, this->planetColor.y, this->planetColor.z, this->planetColor.w);
-
 }
 
 void Planet::ShaderConfigureWithSunReflection(Shader planetShader, Planet sun)
@@ -105,10 +107,42 @@ void Planet::ShaderConfigureWithSunReflection(Shader planetShader, Planet sun)
 }
 
 
-void Planet::Draw()
+void Planet::move()
 {
+    //tutaj obracaja siÃª wokol siebie ale wszystkie tak samo idk czemu
+    //static GLfloat spin_angle = 0.0f;
+    //static GLfloat rot_angle = 0.0f;;
+    //rot_angle += glm::radians(this->orbitSpeed) / 200.0f;
+    //spin_angle += glm::radians(this->rotationSpeed) / 100.0f;
+
+
+    this->speed += glm::radians(this->orbitSpeed) / 200.0f;
+    this->spin += glm::radians(this->rotationSpeed) / 100.0f;
+
+    glm::vec3 tvec = glm::vec3(this->orbitRadius, 0.0f, 0.0f);
+    glm::vec3 axis = glm::vec3(0.0f, 1.0f, 0.0f); //OY
+
+    glm::mat4 translate_ = glm::translate(glm::mat4(1.0f), -tvec);
+    glm::mat4 rotate_ = glm::rotate(glm::mat4(1.0f), this->speed, axis);
+    glm::mat4 spin_ = glm::rotate(glm::mat4(1.0f), this->spin, axis);
+    this->planetModel = rotate_ * translate_ * spin_;
+}
+
+void Planet:: movePlanet()
+{
+    // tu sie obracalo dobrze, ale teraz nie dziala ktos mi powie czemu???
+    //this->planetModel = glm::translate(this->planetModel, glm::vec3( -this->orbitRadius  , 0.0f, 0.0f));
+    //this->planetModel = glm::rotate(this->planetModel, glm::radians(this->orbitSpeed) / 100.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //OY
+    //this->planetModel = glm::translate(this->planetModel,glm::vec3(this->orbitRadius, 0.0f, 0.0f));
+}
+
+
+void Planet::Draw(Shader planetShader)
+{
+    glUniformMatrix4fv(glGetUniformLocation(planetShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(this->planetModel));
     this->planetVAO.Bind();
     glDrawElements(GL_TRIANGLES, 6 * this->segments * this->segments, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 }
 
 void Planet::Delete()

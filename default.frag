@@ -15,19 +15,19 @@ uniform vec3 camPos;
 
 void main()
 {
-	float ambient = 0.20f;
+	float ambient = 0.2f;
 
 	vec3 normal = normalize(Normal);
 	vec3 lightDirection = normalize(lightPos - crntPos);
 
 	float diffuse = max(dot(normal,lightDirection), 0.0f);
 
-	float specularLight = 0.50f;
+	float specularLight = 0.90f; //0.5f
 
 	vec3 viewDirection = normalize(camPos - crntPos);
-	vec3 reflectionDirection = reflect(-lightDirection, normal);
+	vec3 reflectionDirection = reflect(lightDirection, normal); //	vec3 reflectionDirection = reflect(-lightDirection, normal);
 
-	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 128);
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 1); //128
 	float specular = specAmount * specularLight;
 
 	//FragColor = texture(tex0, texCoord) * lightColor * (diffuse + ambient + specular);
